@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineTube - Películas Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Header y Navegación */
+        .header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0 0.25rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        /* Contenedor Principal */
+        .main-container {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .main-player {
+            flex: 2;
+        }
+        
+        .main-player iframe {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        
+        .movie-title {
+            font-size: 1.8rem;
+            margin: 1.5rem 0;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+
+        
+        /* Playlist */
+        .playlist {
+            flex: 1;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 700px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .playlist h3 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #333;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .category-section {
+            margin-bottom: 2rem;
+        }
+        
+        .category-title {
+            color: #ff6b6b;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .movie-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .movie-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #ff6b6b;
+            transform: translateX(5px);
+        }
+        
+        .movie-item.active {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        .movie-thumb {
+            width: 120px;
+            height: 68px;
+            border-radius: 6px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .movie-info {
+            flex: 1;
+            padding: 0.25rem;
+        }
+        
+        .movie-info h4 {
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+        
+        .movie-info p {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        /* Botón Ver Más */
+        .load-more-section {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+        }
+        
+        .load-more-btn {
+            background: linear-gradient(45deg, #333, #555);
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .load-more-btn:hover {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+        
+        /* Secciones ocultas */
+        .hidden-section {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .hidden-section.show {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .main-player iframe {
+                height: 350px;
+            }
+            
+            .playlist {
+                max-height: 500px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-link {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar personalizado */
+        .playlist::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .playlist::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+        
+        .playlist::-webkit-scrollbar-thumb {
+            background: #ff6b6b;
+            border-radius: 4px;
+        }
+        
+        .playlist::-webkit-scrollbar-thumb:hover {
+            background: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con Navegación -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">🎬 CineTube</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#estrenos" class="nav-link active" onclick="showCategory('estrenos', this)">🆕 Estrenos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#accion" class="nav-link" onclick="showCategory('accion', this)">🔥 Acción</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#drama" class="nav-link" onclick="showCategory('drama', this)">🎭 Drama</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#infantil" class="nav-link" onclick="showCategory('infantil', this)">👶 Infantil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#ficcion" class="nav-link" onclick="showCategory('ficcion', this)">🚀 Ficción</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#terror" class="nav-link" onclick="showCategory('terror', this)">👻 Terror</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Contenedor Principal -->
+    <div class="main-container">
+        <div class="main-player">
+            <iframe id="mainPlayer" 
+                    src="https://streamtape.com/e/bZPyBLr2OVUP1J3/Cazando_al_asesino_%282025%29.mp4" 
+                    allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0">
+            </iframe>
+            <h2 class="movie-title" id="movieTitle">Cazando al asesino (2025)</h2>
+        </div>
+        
+        <div class="playlist">
+            <h3>📋 Lista de Reproducción</h3>
+            
+            <!-- SECCIÓN ESTRENOS -->
+            <div id="estrenos" class="category-section">
+                <div class="category-title">🆕 Estrenos</div>
+                
+<div class="movie-item" onclick="playMovie('https://vimeus.com/e/movie?tmdb=99861&view_key=XjA2rm8ztIjMeQ5T9VosW8EPmhZ9vGqBkBS_Em_68Q', 'Película 001', this)">
+                        <div class="movie-thumb" style="background: linear-gradient(135deg, #333, #555); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem;">▶</div>
+                        <div class="movie-info">
+                            <h4>Película 001</h4>
+                            <p>Ficción</p>
+                        </div>
+                    </div>            
+<div class="movie-item active" onclick="playMovie('https://streamtape.com/e/bZPyBLr2OVUP1J3/Cazando_al_asesino_%282025%29.mp4', 'Cazando al asesino (2025)', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/bZPyBLr2OVUP1J3/MJVKaryG0LIBYL.jpg" alt="Cazando al asesino">
+                    <div class="movie-info">
+                        <h4>Cazando al asesino</h4>
+                        <p>2025 • Acción</p>
+                    </div>
+                </div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/Jppdjwa8WqC9bQ/Indiana_Jones_y_el_dial_del_destino_%282023%29.mp4', 'Indiana Jones y el dial del destino (2023)', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/Jppdjwa8WqC9bQ/LOMlRe4918hRYr2.jpg" alt="Indiana Jones">
+                    <div class="movie-info">
+                        <h4>Indiana Jones y el dial del destino</h4>
+                        <p>2023 • Aventura</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI ESTRENOS -->
+                <div id="estrenos-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para más estrenos -->
+                    
+                    <div class="movie-item" onclick="playMovie('https://streamtape.com/e/MaYPpQDBaMTGlZ/Zootopia_%282016%29.mp4', 'Zootopia (2016)', this)">
+                        <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/MaYPpQDBaMTGlZ/MPbO9qPxlVHmk9m.jpg" alt="Zootopia">
+                        <div class="movie-info">
+                            <h4>Zootopia</h4>
+                            <p>2016 • Animación</p>
+                        </div>
+                    </div>
+                    
+                    <div class="movie-item" onclick="playMovie('https://streamtape.com/e/qxzaP6ovrXTzrqa/Nunca_m%C3%A1s_%282002%29.mp4', 'Nunca más (2002)', this)">
+                        <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/qxzaP6ovrXTzrqa/LXm4qrpjXefRLVg.jpg" alt="Nunca más">
+                        <div class="movie-info">
+                            <h4>Nunca más</h4>
+                            <p>2002 • Thriller</p>
+                        </div>
+                    
+                        </div>
+                    
+                    
+      <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('estrenos')">
+                        Ver más estrenos ↓
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN ACCIÓN (oculta inicialmente) -->
+            <div id="accion" class="category-section" style="display: none;">
+                <div class="category-title">🔥 Acción</div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/bZPyBLr2OVUP1J3/Cazando_al_asesino_%282025%29.mp4', 'Cazando al asesino (2025)', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/bZPyBLr2OVUP1J3/MJVKaryG0LIBYL.jpg" alt="Cazando al asesino">
+                    <div class="movie-info">
+                        <h4>Cazando al asesino</h4>
+                        <p>2025 • Acción</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI ACCION -->
+                <div id="accion-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para películas de acción -->
+                    
+                    <div class="movie-item" onclick="playMovie('https://streamtape.com/e/b3R0RBqraGSdMJ/High_Ground-_En_la_tierra_de_los_justos.mp4', 'High Ground - En la tierra de los justos', this)">
+                        <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/b3R0RBqraGSdMJ/9kyO7e00Bxfaq7q.jpg" alt="High Ground">
+                        <div class="movie-info">
+                            <h4>High Ground</h4>
+                            <p>Drama • Acción</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('accion')">
+                        Ver más acción ↓
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN DRAMA (oculta inicialmente) -->
+            <div id="drama" class="category-section" style="display: none;">
+                <div class="category-title">🎭 Drama</div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/qxzaP6ovrXTzrqa/Nunca_m%C3%A1s_%282002%29.mp4', 'Nunca más (2002)', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/qxzaP6ovrXTzrqa/LXm4qrpjXefRLVg.jpg" alt="Nunca más">
+                    <div class="movie-info">
+                        <h4>Nunca más</h4>
+                        <p>2002 • Drama</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI DRAMA -->
+                <div id="drama-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para dramas -->
+                    
+                    <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('drama')">
+                        Ver más dramas ↓
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN INFANTIL (oculta inicialmente) -->
+            <div id="infantil" class="category-section" style="display: none;">
+                <div class="category-title">👶 Infantil</div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/MaYPpQDBaMTGlZ/Zootopia_%282016%29.mp4', 'Zootopia (2016)', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/MaYPpQDBaMTGlZ/MPbO9qPxlVHmk9m.jpg" alt="Zootopia">
+                    <div class="movie-info">
+                        <h4>Zootopia</h4>
+                        <p>2016 • Animación</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI INFANTIL -->
+                <div id="infantil-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para películas infantiles -->
+                    
+                    <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('infantil')">
+                        Ver más infantiles ↓
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN FICCIÓN (oculta inicialmente) -->
+            <div id="ficcion" class="category-section" style="display: none;">
+                <div class="category-title">🚀 Ficción</div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/vxgrobw9gpI29M/El_descubridor_de_leyendas.mp4', 'El descubridor de leyendas', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/vxgrobw9gpI29M/7b2pYGbeyLSAKej.jpg" alt="El descubridor de leyendas">
+                    <div class="movie-info">
+                        <h4>El descubridor de leyendas</h4>
+                        <p>Aventura • Ficción</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI FICCION -->
+                <div id="ficcion-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para películas de ficción -->
+                    
+                    <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('ficcion')">
+                        Ver más ficción ↓
+                    </button>
+                </div>
+            </div>
+            
+            <!-- SECCIÓN TERROR (oculta inicialmente) -->
+            <div id="terror" class="category-section" style="display: none;">
+                <div class="category-title">👻 Terror</div>
+                
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/bZPyBLr2OVUP1J3/Cazando_al_asesino_%282025%29.mp4', 'Película de Terror Ejemplo', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/bZPyBLr2OVUP1J3/MJVKaryG0LIBYL.jpg" alt="Terror">
+                    <div class="movie-info">
+                        <h4>Película de Terror</h4>
+                        <p>2024 • Terror</p>
+                    </div>
+                </div>
+                
+                <!-- PEGAR AQUI TERROR -->
+                <div id="terror-more" class="hidden-section">
+                    <!-- INICIO: Pegar aquí el código generado para películas de terror -->
+                    
+                    <!-- FIN: Pegar código generado arriba de esta línea -->
+                </div>
+                
+                <div class="load-more-section">
+                    <button class="load-more-btn" onclick="loadMore('terror')">
+                        Ver más terror ↓
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Función para reproducir película
+        function playMovie(url, title, element) {
+            document.getElementById('mainPlayer').src = url;
+            document.getElementById('movieTitle').textContent = title;
+            
+            // Quitar clase active de todos los items
+            document.querySelectorAll('.movie-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Agregar clase active al item clickeado
+            element.classList.add('active');
+        }
+        
+        // Función para mostrar categoría
+        function showCategory(categoryId, linkElement) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.category-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Mostrar la sección seleccionada
+            document.getElementById(categoryId).style.display = 'block';
+            
+            // Actualizar navegación activa
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            linkElement.classList.add('active');
+            
+            // Scroll suave hacia arriba
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Función para cargar más contenido
+        function loadMore(categoryId) {
+            const moreSection = document.getElementById(categoryId + '-more');
+            const button = event.target;
+            
+            if (moreSection.classList.contains('show')) {
+                // Ocultar contenido
+                moreSection.classList.remove('show');
+                button.textContent = button.textContent.replace('menos', 'más').replace('↑', '↓');
+            } else {
+                // Mostrar contenido
+                moreSection.classList.add('show');
+                button.textContent = button.textContent.replace('más', 'menos').replace('↓', '↑');
+                
+                // Scroll suave hacia el contenido nuevo
+                setTimeout(() => {
+                    moreSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+            }
+        }
+        
+        // Navegación por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Cerrar secciones expandidas
+                document.querySelectorAll('.hidden-section.show').forEach(section => {
+                    section.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
