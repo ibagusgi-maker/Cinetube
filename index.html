@@ -89,11 +89,49 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
         
+        .movie-details {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
         .movie-title {
             font-size: 1.8rem;
-            margin: 1.5rem 0;
+            margin: 0 0 0.5rem 0;
             color: #fff;
             font-weight: 600;
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .movie-meta span {
+            color: #aaa;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .movie-rating {
+            background: rgba(255, 193, 7, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            color: #ffc107;
+            font-weight: bold;
+        }
+        
+        .movie-description {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
         
 
@@ -154,8 +192,19 @@
         }
         
         .movie-item.active {
-            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.3), rgba(255, 107, 107, 0.3));
+            border: 2px solid #ff6b6b;
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        .movie-item.active .movie-info h4 {
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .movie-item.active .movie-info p {
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
         
         .movie-thumb {
@@ -321,11 +370,22 @@
     <!-- Contenedor Principal -->
     <div class="main-container">
         <div class="main-player">
+            <div class="movie-details" id="movieDetails">
+                <h2 class="movie-title" id="movieTitle">Cazando al asesino (2025)</h2>
+                <div class="movie-meta" id="movieMeta">
+                    <span>📅 2025</span>
+                    <span>🎭 Acción</span>
+                    <span class="movie-rating">⭐ 7.2</span>
+                </div>
+                <p class="movie-description" id="movieDescription">
+                    Una emocionante película de acción donde un detective debe atrapar a un peligroso asesino antes de que cometa su próximo crimen.
+                </p>
+            </div>
+            
             <iframe id="mainPlayer" 
                     src="https://streamtape.com/e/bZPyBLr2OVUP1J3/Cazando_al_asesino_%282025%29.mp4" 
                     allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0">
             </iframe>
-            <h2 class="movie-title" id="movieTitle">Cazando al asesino (2025)</h2>
         </div>
         
         <div class="playlist">
@@ -480,14 +540,13 @@
             <div id="ficcion" class="category-section" style="display: none;">
                 <div class="category-title">🚀 Ficción</div>
                 
-                <div class="movie-item" onclick="playMovie('https://vimeus.com/e/movie?tmdb=917281&view_key=XjA2rm8ztIjMeQ5T9VosW8EPmhZ9vGqBkBS_Em_68Q', 'Me encontrarás en lo profundo del abismo', this)">
-                        <img class="movie-thumb" src="https://image.tmdb.org/t/p/w342/917281" alt="Película 001 (TMDB: 917281)" onload="this.style.display='block'" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="movie-thumb" style="display: none; background: linear-gradient(135deg, #333, #555); align-items: center; justify-content: center; color: #fff; font-size: 2rem;">▶</div>
-                        <div class="movie-info">
-                            <h4>Me encontrarás en lo profundo del abismo</h4>
-                            <p>Ficción</p>
-                        </div>
+                <div class="movie-item" onclick="playMovie('https://streamtape.com/e/vxgrobw9gpI29M/El_descubridor_de_leyendas.mp4', 'El descubridor de leyendas', this)">
+                    <img class="movie-thumb" src="https://thumb.tapecontent.net/thumb/vxgrobw9gpI29M/7b2pYGbeyLSAKej.jpg" alt="El descubridor de leyendas">
+                    <div class="movie-info">
+                        <h4>El descubridor de leyendas</h4>
+                        <p>Aventura • Ficción</p>
                     </div>
+                </div>
                 
                 <!-- PEGAR AQUI FICCION -->
                 <div id="ficcion-more" class="hidden-section">
@@ -514,20 +573,11 @@
                         <p>2024 • Terror</p>
                     </div>
                 </div>
-                <div class="movie-item" onclick="playMovie('https://vimeus.com/e/movie?tmdb=72190&view_key=XjA2rm8ztIjMeQ5T9VosW8EPmhZ9vGqBkBS_Em_68Q', 'Guerra Mundial Z (2013)', this)" title="Cuando el mundo comienza a ser invadido por una legión de muertos vivientes, Gerry Lane, un experto investigador de las Naciones Unidas, intentará evitar el fin de la civilización en una carrera contra el tiempo y el destino. La destrucción a la que se ve sometida la raza humana lo lleva a recorrer el mundo entero buscando la solución para frenar esa horrible epidemia.">
-                        <img class="movie-thumb" src="https://image.tmdb.org/t/p/w500/a8ogjWFd0QS6BzBkzfDMWukc26i.jpg" alt="Guerra Mundial Z" onload="this.style.display='block'" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="movie-thumb" style="display: none; background: linear-gradient(135deg, #333, #555); align-items: center; justify-content: center; color: #fff; font-size: 2rem;">▶</div>
-                        <div class="movie-info">
-                            <h4>Guerra Mundial Z</h4>
-                            <p>Acción, Terror, Ciencia ficción, Suspense • 2013 • ⭐ 6.8</p>
-                            <p class="movie-description" style="font-size: 0.75rem; color: #888; margin-top: 0.25rem; line-height: 1.2;">Cuando el mundo comienza a ser invadido por una legión de muertos vivientes, Gerry Lane, un experto ...</p>
-                        </div>
-                    </div>
-                <!-- PEGAR AQUI TERROR -->
                 
+                <!-- PEGAR AQUI TERROR -->
                 <div id="terror-more" class="hidden-section">
                     <!-- INICIO: Pegar aquí el código generado para películas de terror -->
-                                      
+                    
                     <!-- FIN: Pegar código generado arriba de esta línea -->
                 </div>
                 
@@ -542,9 +592,39 @@
     
     <script>
         // Función para reproducir película
-        function playMovie(url, title, element) {
+        function playMovie(url, title, element, movieData = {}) {
             document.getElementById('mainPlayer').src = url;
             document.getElementById('movieTitle').textContent = title;
+            
+            // Actualizar metadatos si están disponibles
+            const metaElement = document.getElementById('movieMeta');
+            const descElement = document.getElementById('movieDescription');
+            
+            let metaHTML = '';
+            if (movieData.year) {
+                metaHTML += `<span>📅 ${movieData.year}</span>`;
+            }
+            if (movieData.genre) {
+                metaHTML += `<span>🎭 ${movieData.genre}</span>`;
+            }
+            if (movieData.rating && movieData.rating > 0) {
+                metaHTML += `<span class="movie-rating">⭐ ${movieData.rating}</span>`;
+            }
+            
+            if (metaHTML) {
+                metaElement.innerHTML = metaHTML;
+                metaElement.style.display = 'flex';
+            } else {
+                metaElement.style.display = 'none';
+            }
+            
+            // Actualizar descripción
+            if (movieData.description) {
+                descElement.textContent = movieData.description;
+                descElement.style.display = 'block';
+            } else {
+                descElement.style.display = 'none';
+            }
             
             // Quitar clase active de todos los items
             document.querySelectorAll('.movie-item').forEach(item => {
@@ -607,15 +687,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
